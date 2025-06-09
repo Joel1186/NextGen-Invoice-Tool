@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Invoice</title>
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container py-5">
+    <img src="/static/logo.png" alt="Logo" width="200">
+    <h2>Generate Invoice</h2>
+    <form method="POST" action="/generate">
+        <input class="form-control" name="customer" placeholder="Customer Name" required><br>
+        <textarea class="form-control" name="address" placeholder="Customer Address" rows="2" required></textarea><br>
+        <input class="form-control" name="service" placeholder="Service Description" required><br>
+        <input class="form-control" name="rate" type="number" step="0.01" placeholder="Rate ($)" required><br>
+        <input class="form-control" name="quantity" type="number" placeholder="Quantity" required><br>
+        <button class="btn btn-success" type="submit">Generate PDF</button>
+    </form>
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+</html>
