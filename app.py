@@ -61,8 +61,8 @@ def generate_invoice():
     pdf.output(buffer)
     buffer.seek(0)
     return send_file(buffer, as_attachment=True, download_name="invoice.pdf", mimetype='application/pdf')
-        if __name__ == "__main__":
-        import os
-        port = int(os.environ.get("PORT", 10000))
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
 
