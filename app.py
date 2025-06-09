@@ -34,6 +34,7 @@ def generate_invoice():
     if not session.get('auth'):
         return redirect(url_for('login'))
 
+    
     try:
         customer = request.form['customer']
         address = request.form['address']
