@@ -1,3 +1,34 @@
+from flask import Flask, render_template, request, send_file, session, redirect, url_for
+from fpdf import FPDF
+import io
+from datetime import datetime
+import os
+
+app = Flask(__name__)
+app.secret_key = "nextgen_secure_key"
+
+@app.route('/')
+def login():
+    return render_template('login.html')
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    if request.form['username'] == "admin" and request.form['password'] == "buildfast":
+        session['auth'] = True
+        return redirect(url_for('form'))
+    return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('auth', None)
+    return redirect(url_for('login'))
+
+@app.route('/form')
+def form():
+    if not session.get('auth'):
+        return redirect(url_for('login'))
+    return render_template('form.html')
+
 @app.route('/generate', methods=['POST'])
 def generate_invoice():
     if not session.get('auth'):
@@ -16,7 +47,7 @@ def generate_invoice():
         pdf.add_page()
         try:
             pdf.image("static/logo.png", x=10, y=8, w=50)
-        except:
+        except Exception:
             pass
         pdf.set_font("Arial", size=12)
         pdf.ln(30)
@@ -30,7 +61,6 @@ def generate_invoice():
         pdf.cell(100, 10, txt=f"Total: ${total:.2f}", ln=True)
         pdf.cell(100, 10, txt=f"Date: {now}", ln=True)
 
-        # FIX: Correct BytesIO usage for FPDF and Flask
         pdf_bytes = pdf.output(dest='S').encode('latin1')
         buffer = io.BytesIO(pdf_bytes)
         buffer.seek(0)
@@ -38,3 +68,7 @@ def generate_invoice():
 
     except Exception as e:
         return f"An error occurred while generating the PDF: {str(e)}", 500
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
