@@ -1,0 +1,14 @@
+
+{
+  "short_name": "NextGen",
+  "name": "NextGen Construction Invoice Tool",
+  "icons": [{
+    "src": "/static/logo.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }],
+  "start_url": "/form",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
